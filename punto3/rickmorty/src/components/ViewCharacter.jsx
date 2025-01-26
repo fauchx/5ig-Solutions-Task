@@ -11,13 +11,11 @@ function ViewCharacter({ character }) {
         setError(null);
 
         if (!character) {
-            // If search input is empty, fetch ALL characters
             fetchCharacters()
                 .then(data => setCharacters(data.results))
                 .catch(err => setError(err.message))
                 .finally(() => setLoading(false));
         } else {
-            // If user is typing, fetch filtered results
             fetchSingleCharacter(character)
                 .then(data => {
                     if (data.results && data.results.length > 0) {
@@ -30,28 +28,36 @@ function ViewCharacter({ character }) {
                 .catch(err => setError(err.message))
                 .finally(() => setLoading(false));
         }
-    }, [character]); // Re-fetch every time the user types
+    }, [character]); 
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
 
     return (
-        <div>
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
             {characters.length > 0 ? (
-                <ul>
-                    {characters.map((char) => (
-                        <li key={char.id}>
-                            <h2>{char.name}</h2>
-                            <img src={char.image} alt={char.name} />
-                            <p>{char.species}</p>
-                            <p>{char.status}</p>
-                        </li>
-                    ))}
-                </ul>
+                characters.map((char) => (
+                <div 
+                    key={char.id} 
+                    className="flex flex-col items-center p-4 border rounded-lg shadow-md bg-white"
+                >
+                    <h2 className="text-lg font-semibold mb-2">{char.name}</h2>
+                    <img 
+                    src={char.image} 
+                    alt={char.name} 
+                    className="w-32 h-32 object-cover rounded-full mb-2"
+                    />
+                    <p className="text-sm text-gray-600">{char.species}</p>
+                    <p className={`text-sm font-medium ${char.status === 'Alive' ? 'text-green-500' : 'text-red-500'}`}>
+                    {char.status}
+                    </p>
+                </div>
+                ))
             ) : (
-                <p>No characters found</p>
+                <p className="text-center col-span-full text-2xl font-bold text-gray-500">No characters found</p>
             )}
-        </div>
+            </section>
+
     );
 }
 

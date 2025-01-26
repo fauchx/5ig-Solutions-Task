@@ -6,13 +6,13 @@ function SearchBar() {
     const [character, setCharacter] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Debounce the search (waits 500ms before updating searchTerm)
+    
     useEffect(() => {
         const delaySearch = setTimeout(() => {
             setSearchTerm(character);
-        }, 500); // Adjust delay as needed
+        }, 500); 
 
-        return () => clearTimeout(delaySearch); // Cleanup previous timeout
+        return () => clearTimeout(delaySearch); 
     }, [character]);
 
     return (
@@ -26,12 +26,12 @@ function SearchBar() {
                         className="bg-gray-300 text-black w-full outline-none" 
                         type='text' 
                         value={character} 
-                        onChange={e => setCharacter(e.target.value)} // Live update search
+                        onChange={e => setCharacter(e.target.value)} 
                         placeholder="Search for a character..."
                     />
                 </form>
             </div>
-            <ViewCharacter character={searchTerm} /> {/* Pass searchTerm */}
+            <ViewCharacter character={searchTerm} /> 
         </>
     );
 }
